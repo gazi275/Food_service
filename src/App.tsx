@@ -20,7 +20,7 @@ import { useEffect } from "react";
 import Loading from "./components/Loading";
 import { useThemeStore } from "./store/useThemeStore";
 
-const ProtectedRoutes = ({ children }: { children: React.ReactNode }) => {
+export const ProtectedRoutes = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated, user } = useUserStore();
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
