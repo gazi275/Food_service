@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { LoginInputState, userLoginSchema } from "@/schema/userSchema";
 import { useUserStore } from "@/store/useUserStore";
-import { Loader2, LockKeyhole, Mail } from "lucide-react";
+import {  LockKeyhole, Mail } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -13,7 +13,7 @@ const Login = () => {
     password: "",
   });
   const [errors, setErrors] = useState<Partial<LoginInputState>>({});
-  const { loading, login } = useUserStore();
+   const { /*loading */ login } = useUserStore();
   const navigate = useNavigate();
 
   const changeEventHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -23,6 +23,7 @@ const Login = () => {
   const loginSubmitHandler = async (e: FormEvent) => {
     e.preventDefault();
     const result = userLoginSchema.safeParse(input);
+    console.log(input);
     if (!result.success) {
       const fieldErrors = result.error.formErrors.fieldErrors;
       setErrors(fieldErrors as Partial<LoginInputState>);
@@ -31,7 +32,8 @@ const Login = () => {
     try {
       await login(input);
       navigate("/");
-    } catch (error) {console.log(error);
+    } 
+    catch (error) {console.log(error);
     }
   };
 
@@ -77,18 +79,19 @@ const Login = () => {
           </div>
         </div>
         <div className="mb-10">
-          {loading ? (
+          {/* {loading ? (
             <Button disabled className="w-full bg-orange hover:bg-hoverOrange">
               <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait
             </Button>
-          ) : (
+          ) : */}
+           
             <Button
               type="submit"
               className="w-full bg-orange hover:bg-hoverOrange"
             >
               Login
             </Button>
-          )}
+          
           <div className="mt-4">
             <Link
               to="/forgot-password"

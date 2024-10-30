@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { SignupInputState, userSignupSchema } from "@/schema/userSchema";
 import { useUserStore } from "@/store/useUserStore";
-import { Loader2, LockKeyhole, Mail, PhoneOutgoing, User } from "lucide-react";
+import {  LockKeyhole, Mail, PhoneOutgoing, User } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -17,7 +17,7 @@ const Signup = () => {
         contact:"", 
     });
     const [errors, setErrors] = useState<Partial<SignupInputState>>({});
-    const {signup, loading} = useUserStore();
+    const {signup/* loading: false,*/} = useUserStore();
 const navigate = useNavigate();
     const changeEventHandler = (e:ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
@@ -40,6 +40,7 @@ const navigate = useNavigate();
           console.log(error);
         }
     }
+    console.log(input);
   
   return (
     <div className="flex items-center justify-center min-h-screen">
@@ -104,15 +105,15 @@ const navigate = useNavigate();
           </div>
         </div>
         <div className="mb-10">
-          {loading ? (
+          {/* {loading ? (
             <Button disabled className="w-full bg-orange hover:bg-hoverOrange">
               <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait
             </Button>
-          ) : (
+          ) : ( */}
             <Button type="submit" className="w-full bg-orange hover:bg-hoverOrange">
               Signup
             </Button>
-          )}
+         
         </div>
         <Separator/>
         <p className="mt-2">

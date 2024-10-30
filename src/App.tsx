@@ -55,11 +55,11 @@ const AdminRoute = ({children}:{children:React.ReactNode}) => {
 const appRouter = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <ProtectedRoutes>
+    element: (() => (
+      
         <MainLayout />
-      </ProtectedRoutes>
-    ),
+      
+    ))(),
     children: [
       {
         path: "/",

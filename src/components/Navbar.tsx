@@ -42,7 +42,7 @@ import { useCartStore } from "@/store/useCartStore";
 import { useThemeStore } from "@/store/useThemeStore";
 
 const Navbar = () => {
-  const { user, loading, logout } = useUserStore();
+  const { user, logout } = useUserStore();
   const { cart } = useCartStore();
   const {setTheme} = useThemeStore();
 
@@ -111,19 +111,19 @@ const Navbar = () => {
               </Avatar>
             </div>
             <div>
-              {loading ? (
+              {/* {loading ? (
                 <Button className="bg-orange hover:bg-hoverOrange">
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Please wait
                 </Button>
-              ) : (
+              ) : ( */}
                 <Button
                   onClick={logout}
                   className="bg-orange hover:bg-hoverOrange"
                 >
                   Logout
                 </Button>
-              )}
+              
             </div>
           </div>
         </div>
@@ -139,7 +139,7 @@ const Navbar = () => {
 export default Navbar;
 
 const MobileNavbar = () => {
-  const { user, logout, loading } = useUserStore();
+  const { user, logout } = useUserStore();
   const {setTheme} = useThemeStore();
   return (
     <Sheet>
@@ -227,19 +227,19 @@ const MobileNavbar = () => {
             <h1 className="font-bold">Patel Mernstack</h1>
           </div>
           <SheetClose asChild>
-            {loading ? (
+            {/* {loading ? (
               <Button className="bg-orange hover:bg-hoverOrange">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Please wait
               </Button>
-            ) : (
+            ) : ( */}
               <Button
                 onClick={logout}
                 className="bg-orange hover:bg-hoverOrange"
               >
                 Logout
               </Button>
-            )}
+           
           </SheetClose>
         </SheetFooter>
       </SheetContent>
