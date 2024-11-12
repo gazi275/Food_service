@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Login from "./auth/Login";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Signup from "./auth/Signup";
@@ -55,11 +56,7 @@ const AdminRoute = ({children}:{children:React.ReactNode}) => {
 const appRouter = createBrowserRouter([
   {
     path: "/",
-    element: (() => (
-      
-        <MainLayout />
-      
-    ))(),
+    element: <MainLayout/>,
     children: [
       {
         path: "/",
@@ -67,23 +64,23 @@ const appRouter = createBrowserRouter([
       },
       {
         path: "/profile",
-        element: <Profile />,
+        element:<ProtectedRoutes><Profile /></ProtectedRoutes> ,
       },
       {
         path: "/search/:text",
-        element: <SearchPage />,
+        element:<ProtectedRoutes><SearchPage /></ProtectedRoutes> ,
       },
       {
         path: "/restaurant/:id",
-        element: <RestaurantDetail />,
+        element:<ProtectedRoutes><RestaurantDetail /></ProtectedRoutes> ,
       },
       {
         path: "/cart",
-        element: <Cart />,
+        element:<ProtectedRoutes><Cart /></ProtectedRoutes> ,
       },
       {
         path: "/order/status",
-        element: <Success />,
+        element:<ProtectedRoutes><Success /></ProtectedRoutes> ,
       },
       // admin services start from here
       {

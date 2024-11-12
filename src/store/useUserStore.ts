@@ -36,7 +36,7 @@ type UserState = {
 
 export const useUserStore = create<UserState>()(persist((set) => ({
     user: null,
-    isAuthenticated: false,
+    isAuthenticated: true,
     isCheckingAuth: true,
     // loading: false,
     // signup api implementation

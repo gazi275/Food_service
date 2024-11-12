@@ -15,7 +15,7 @@ import {
 import { Button } from "./ui/button";
 import {
   HandPlatter,
-  Loader2,
+  
   Menu,
   Moon,
   PackageCheck,
@@ -49,9 +49,9 @@ const Navbar = () => {
   return (
     <div className="max-w-7xl mx-auto">
       <div className="flex items-center justify-between h-14">
-        <Link to="/">
+        <h4>
           <h1 className="font-bold md:font-extrabold text-2xl">PatelEats</h1>
-        </Link>
+        </h4>
         <div className="hidden md:flex items-center gap-10">
           <div className="hidden md:flex items-center gap-6">
             <Link to="/">Home</Link>
