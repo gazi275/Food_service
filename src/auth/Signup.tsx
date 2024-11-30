@@ -7,6 +7,7 @@ import {  LockKeyhole, Mail, PhoneOutgoing, User } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+
 // typescript me type define krne ka 2 trika hota hai
 
 const Signup = () => {
@@ -17,8 +18,8 @@ const Signup = () => {
         contact:"", 
     });
     const [errors, setErrors] = useState<Partial<SignupInputState>>({});
-    const {signup/* loading: false,*/} = useUserStore();
-const navigate = useNavigate();
+    const {signup } = useUserStore();
+    const navigate = useNavigate();
     const changeEventHandler = (e:ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
         setInput({...input, [name]:value});
@@ -35,7 +36,7 @@ const navigate = useNavigate();
         // login api implementation start here
         try {
           await signup(input);
-          navigate("/verify-email");
+          navigate("/login");
         } catch (error) {
           console.log(error);
         }

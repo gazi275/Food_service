@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Orders } from "@/types/orderType";
 import { MenuItem, RestaurantState } from "@/types/restaurantType";
 import axios from "axios";
@@ -5,7 +7,7 @@ import { toast } from "sonner";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-const API_END_POINT = "https://food-app-yt.onrender.com/api/v1/restaurant";
+const API_END_POINT = "https://food-service-server-alpi.vercel.app/api/v1/restaurant";
 axios.defaults.withCredentials = true;
 
 
@@ -118,7 +120,11 @@ export const useRestaurantStore = create<RestaurantState>()(persist((set, get) =
             if (response.data.success) {
                 set({ singleRestaurant: response.data.restaurant })
             }
-        } catch (error) { }
+        } catch(error){
+            console.log(error); 
+        }
+
+        
     },
     getRestaurantOrders: async () => {
         try {

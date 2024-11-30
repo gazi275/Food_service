@@ -1,11 +1,4 @@
-import {
-  Loader2,
-  LocateIcon,
-  Mail,
-  MapPin ,
-  MapPinnedIcon,
-  Plus,
-} from "lucide-react";
+import { Loader2, LocateIcon, Mail, MapPin, MapPinnedIcon, Plus } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { FormEvent, useRef, useState } from "react";
 import { Input } from "./ui/input";
@@ -14,31 +7,34 @@ import { Button } from "./ui/button";
 import { useUserStore } from "@/store/useUserStore";
 
 const Profile = () => {
-  const {user, updateProfile} = useUserStore();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { user, updateProfile } = useUserStore();
+  const [isLoading, setIsLoading] = useState(false);
   const [profileData, setProfileData] = useState({
     fullname: user?.fullname || "",
-    email: user?.email || "", 
+    email: user?.email || "",
     address: user?.address || "",
     city: user?.city || "",
     country: user?.country || "",
-    profilePicture: user?.profilePicture || "",
   });
   const imageRef = useRef<HTMLInputElement | null>(null);
-  const [selectedProfilePicture, setSelectedProfilePicture] =
-    useState<string>( profileData.profilePicture || "");
- 
+  const [selectedProfilePicture, setSelectedProfilePicture] = useState(user?.profilePicture || "");
+
   const fileChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      if (file.size > 10 * 1024 * 1024) {
+        alert("File size must be less than 10MB");
+        return;
+      }
+      const validTypes = ["image/jpeg", "image/png", "image/gif"];
+      if (!validTypes.includes(file.type)) {
+        alert("Invalid file type. Please upload a JPEG, PNG, or GIF image.");
+        return;
+      }
+
       const reader = new FileReader();
       reader.onloadend = () => {
-        const result = reader.result as string;
-        setSelectedProfilePicture(result);
-        setProfileData((prevData) => ({
-          ...prevData,
-          profilePicture: result,
-        }));
+        setSelectedProfilePicture(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
@@ -53,10 +49,22 @@ const Profile = () => {
     e.preventDefault();
     try {
       setIsLoading(true);
-      await updateProfile(profileData);
+
+      const formData = new FormData();
+      formData.append("fullname", profileData.fullname);
+      formData.append("email", profileData.email);
+      formData.append("address", profileData.address);
+      formData.append("city", profileData.city);
+      formData.append("country", profileData.country);
+      if (imageRef.current?.files?.[0]) {
+        formData.append("profilePicture", imageRef.current.files[0]);
+      }
+
+      await updateProfile(formData);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
+      console.error("Profile update failed:", error);
     }
   };
 
@@ -65,7 +73,7 @@ const Profile = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Avatar className="relative md:w-28 md:h-28 w-20 h-20">
-            <AvatarImage src={selectedProfilePicture}/>
+            <AvatarImage src={selectedProfilePicture || "/path-to-default-avatar.png"} />
             <AvatarFallback>CN</AvatarFallback>
             <input
               ref={imageRef}
@@ -96,11 +104,10 @@ const Profile = () => {
           <div className="w-full">
             <Label>Email</Label>
             <input
-            disabled
+              disabled
               name="email"
               value={profileData.email}
-              onChange={changeHandler}
-              className="w-full text-gray-600 bg-transparent focus-visible:ring-0 focus-visible:border-transparent outline-none border-none"
+              className="w-full text-gray-600 bg-transparent cursor-not-allowed focus-visible:ring-0 focus-visible:border-transparent outline-none border-none"
             />
           </div>
         </div>
@@ -148,7 +155,9 @@ const Profile = () => {
             Please wait
           </Button>
         ) : (
-          <Button type="submit" className="bg-orange hover:bg-hoverOrange">Update</Button>
+          <Button type="submit" className="bg-orange hover:bg-hoverOrange">
+            Update
+          </Button>
         )}
       </div>
     </form>
