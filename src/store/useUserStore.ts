@@ -4,7 +4,7 @@ import axios from "axios";
 import { LoginInputState, SignupInputState } from "@/schema/userSchema";
 import { toast } from "sonner";
 
-const API_END_POINT = "https://food-service-server-alpi.vercel.app/api/v1/user";
+const API_END_POINT = "http://localhost:5000/api/v1/user";
 axios.defaults.withCredentials = true;
 
 type User = {
@@ -49,9 +49,11 @@ export const useUserStore = create<UserState>()(
           },
         });
 
+
         if (response.data.success) {
           toast.success(response.data.message);
-          set({ loading: false, user: response.data.user, isAuthenticated: true });
+          set({ loading: false, user: response.data.user, isAuthenticated: true })
+        
         }
       } catch (error: any) {
         toast.error(error.response?.data?.message || "Signup failed.");

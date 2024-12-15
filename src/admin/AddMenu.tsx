@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2, Plus } from "lucide-react";
+import {  Plus } from "lucide-react";
 import React, { FormEvent, useState } from "react";
 import EditMenu from "./EditMenu";
 import { MenuFormSchema, menuSchema } from "@/schema/menuSchema";
@@ -29,7 +29,7 @@ const AddMenu = () => {
   const [editOpen, setEditOpen] = useState<boolean>(false);
   const [selectedMenu, setSelectedMenu] = useState<any>();
   const [error, setError] = useState<Partial<MenuFormSchema>>({});
-  const { loading, createMenu } = useMenuStore();
+  const {  createMenu } = useMenuStore();
   const {restaurant} = useRestaurantStore();
 
   const changeEventHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +45,7 @@ const AddMenu = () => {
       setError(fieldErrors as Partial<MenuFormSchema>);
       return;
     }
-    // api ka kaam start from here
+  
     try {
       const formData = new FormData();
       formData.append("name", input.name);
@@ -145,16 +145,11 @@ const AddMenu = () => {
                 )}
               </div>
               <DialogFooter className="mt-5">
-                {loading ? (
-                  <Button disabled className="bg-orange hover:bg-hoverOrange">
-                    <Loader2 className="mr-2 w-4 h-4 animate-spin" />
-                    Please wait
-                  </Button>
-                ) : (
-                  <Button className="bg-orange hover:bg-hoverOrange">
+               
+                  <Button type='submit' className="bg-orange hover:bg-hoverOrange">
                     Submit
                   </Button>
-                )}
+                
               </DialogFooter>
             </form>
           </DialogContent>

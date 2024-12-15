@@ -1,5 +1,5 @@
  
-import { IndianRupee } from "lucide-react";
+import { DollarSign, IndianRupee } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
@@ -54,7 +54,7 @@ const Success = () => {
                     </div>
                     <div className="text-right">
                       <div className="text-gray-800 dark:text-gray-200 flex items-center">
-                        <IndianRupee />
+                        <DollarSign />
                         <span className="text-lg font-medium">{item.price}</span>
                       </div>
                     </div>

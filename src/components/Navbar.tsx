@@ -41,8 +41,9 @@ import { useUserStore } from "@/store/useUserStore";
 import { useCartStore } from "@/store/useCartStore";
 import { useThemeStore } from "@/store/useThemeStore";
 
+
 const Navbar = () => {
-  const { user, logout } = useUserStore();
+  const { user, logout,login } = useUserStore();
   const { cart } = useCartStore();
   const {setTheme} = useThemeStore();
 
@@ -50,7 +51,7 @@ const Navbar = () => {
     <div className="max-w-7xl mx-auto">
       <div className="flex items-center justify-between h-14">
         <h4>
-          <h1 className="font-bold md:font-extrabold text-2xl">PatelEats</h1>
+          <h1 className="font-bold md:font-extrabold text-2xl">FOODY</h1>
         </h4>
         <div className="hidden md:flex items-center gap-10">
           <div className="hidden md:flex items-center gap-6">
@@ -111,19 +112,21 @@ const Navbar = () => {
               </Avatar>
             </div>
             <div>
-              {/* {loading ? (
-                <Button className="bg-orange hover:bg-hoverOrange">
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Please wait
-                </Button>
-              ) : ( */}
-                <Button
-                  onClick={logout}
-                  className="bg-orange hover:bg-hoverOrange"
-                >
-                  Logout
-                </Button>
+              { user? (
+               <Button
+               onClick={logout}
+               className="bg-orange hover:bg-hoverOrange"
+             >
+               Logout
+             </Button>
+              ) : 
+               <Link to={"/login"}> <Button
               
+               className="bg-orange hover:bg-hoverOrange"
+             >
+               Login
+             </Button></Link>
+}  
             </div>
           </div>
         </div>
@@ -139,7 +142,7 @@ const Navbar = () => {
 export default Navbar;
 
 const MobileNavbar = () => {
-  const { user, logout } = useUserStore();
+  const { user, logout ,login} = useUserStore();
   const {setTheme} = useThemeStore();
   return (
     <Sheet>
@@ -154,7 +157,7 @@ const MobileNavbar = () => {
       </SheetTrigger>
       <SheetContent className="flex flex-col">
         <SheetHeader className="flex flex-row items-center justify-between mt-2">
-          <SheetTitle>PatelEats</SheetTitle>
+          <SheetTitle>FOODY</SheetTitle>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="icon">
@@ -224,22 +227,26 @@ const MobileNavbar = () => {
               <AvatarImage src={user?.profilePicture} />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
-            <h1 className="font-bold">Patel Mernstack</h1>
+            <h1 className="font-bold">{user?.fullname}</h1>
           </div>
           <SheetClose asChild>
-            {/* {loading ? (
-              <Button className="bg-orange hover:bg-hoverOrange">
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Please wait
-              </Button>
-            ) : ( */}
-              <Button
-                onClick={logout}
-                className="bg-orange hover:bg-hoverOrange"
-              >
-                Logout
-              </Button>
-           
+         
+              { user? (
+               <Button
+               onClick={logout}
+               className="bg-orange hover:bg-hoverOrange"
+             >
+               Logout
+             </Button>
+              ) : 
+               <Link to={"/login"}> <Button
+              
+               className="bg-orange hover:bg-hoverOrange"
+             >
+               Login
+             </Button></Link>
+}  
+            
           </SheetClose>
         </SheetFooter>
       </SheetContent>
