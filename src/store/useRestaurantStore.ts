@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import axiosInstance from "@/Axios/Axios";
 import { Orders } from "@/types/orderType";
 import { MenuItem, RestaurantState } from "@/types/restaurantType";
 import axios from "axios";
@@ -7,8 +8,7 @@ import { toast } from "sonner";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-const API_END_POINT = "https://food-service-server-alpi.vercel.app/api/v1/resturant";
-axios.defaults.withCredentials = true;
+
 
 
 export const useRestaurantStore = create<RestaurantState>()(persist((set, get) => ({
@@ -21,7 +21,7 @@ export const useRestaurantStore = create<RestaurantState>()(persist((set, get) =
     createRestaurant: async (formData: FormData) => {
         try {
             set({ loading: true });
-            const response = await axios.post(`${API_END_POINT}/`, formData, {
+            const response = await axiosInstance.post(`/resturant/`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -42,7 +42,7 @@ export const useRestaurantStore = create<RestaurantState>()(persist((set, get) =
     getRestaurant: async () => {
         try {
             set({ loading: true });
-            const response = await axios.get(`${API_END_POINT}/`);
+            const response = await axiosInstance.get(`/resturant/`);
             if (response.data.success) {
                 set({ loading: false, restaurant: response.data.restaurant });
             }
@@ -56,7 +56,7 @@ export const useRestaurantStore = create<RestaurantState>()(persist((set, get) =
     updateRestaurant: async (formData: FormData) => {
         try {
             set({ loading: true });
-            const response = await axios.put(`${API_END_POINT}/`, formData, {
+            const response = await axiosInstance.put(`/resturant/`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -79,7 +79,7 @@ export const useRestaurantStore = create<RestaurantState>()(persist((set, get) =
             params.set("selectedCuisines", selectedCuisines.join(","));
 
             // await new Promise((resolve) => setTimeout(resolve, 2000));
-            const response = await axios.get(`${API_END_POINT}/search/${searchText}?${params.toString()}`);
+            const response = await axiosInstance.get(`/resturant/search/${searchText}?${params.toString()}`);
             if (response.data.success) {
                 set({ loading: false, searchedRestaurant: response.data });
             }
@@ -120,7 +120,7 @@ export const useRestaurantStore = create<RestaurantState>()(persist((set, get) =
     },
     getSingleRestaurant: async (restaurantId: string) => {
         try {
-            const response = await axios.get(`${API_END_POINT}/${restaurantId}`);
+            const response = await axiosInstance.get(`/resturant/${restaurantId}`);
             if (response.data.success) {
                 set({ singleRestaurant: response.data.restaurant })
             }
@@ -132,7 +132,7 @@ export const useRestaurantStore = create<RestaurantState>()(persist((set, get) =
     },
     getRestaurantOrders: async () => {
         try {
-            const response = await axios.get(`${API_END_POINT}/order`);
+            const response = await axiosInstance.get(`/resturant/order`);
             if (response.data.success) {
                 set({ restaurantOrder: response.data.orders });
             }
@@ -142,7 +142,7 @@ export const useRestaurantStore = create<RestaurantState>()(persist((set, get) =
     },
     updateRestaurantOrder: async (orderId: string, status: string) => {
         try {
-            const response = await axios.put(`${API_END_POINT}/order/${orderId}/status`, { status }, {
+            const response = await axiosInstance.put(`/resturant/order/${orderId}/status`, { status }, {
                 headers: {
                     'Content-Type': 'application/json'
                 }

@@ -1,23 +1,21 @@
 import axios from "axios";
 
-const API_END_POINT = "https://food-service-server-alpi.vercel.app/api/v1/user";
-
-// Create an Axios instance
-const api = axios.create({
-  baseURL: API_END_POINT,
-  withCredentials: true, // Allow cookies
+const axiosInstance = axios.create({
+  baseURL: "http://localhost:5000/api/v1",
+  withCredentials: true,
 });
 
-// Add a request interceptor
-api.interceptors.request.use(
+axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("authToken");
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = `Bearer ${token}`; 
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => {
+    return Promise.reject(error);
+  }
 );
 
-export default api;
+export default axiosInstance;

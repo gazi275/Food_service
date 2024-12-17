@@ -1,11 +1,12 @@
-import axios from "axios";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { toast } from "sonner";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { useRestaurantStore } from "./useRestaurantStore";
+import axiosInstance from "@/Axios/Axios";
 
-const API_END_POINT = "https://food-service-server-alpi.vercel.app/api/v1/menu";
-axios.defaults.withCredentials = true;
+
 
 type MenuState = {
     loading: boolean,
@@ -20,7 +21,7 @@ export const useMenuStore = create<MenuState>()(persist((set) => ({
     createMenu: async (formData: FormData) => {
         try {
         
-            const response = await axios.post(`${API_END_POINT}/`, formData, {
+            const response = await axiosInstance.post(`/menu/`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -39,7 +40,7 @@ export const useMenuStore = create<MenuState>()(persist((set) => ({
     editMenu: async (menuId:string,formData: FormData) => {
         try {
             set({ loading: true });
-            const response = await axios.put(`${API_END_POINT}/${menuId}`, formData, {
+            const response = await axiosInstance.put(`/menu/${menuId}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

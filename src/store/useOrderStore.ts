@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import axiosInstance from "@/Axios/Axios";
 import { CheckoutSessionRequest, OrderState } from "@/types/orderType";
-import axios from "axios";
+
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-const API_END_POINT: string = "https://food-service-server-alpi.vercel.app/api/v1/order";
-axios.defaults.withCredentials = true;
+
 
 export const useOrderStore = create<OrderState>()(persist((set => ({
     loading: false,
@@ -12,7 +13,7 @@ export const useOrderStore = create<OrderState>()(persist((set => ({
     createCheckoutSession: async (checkoutSession: CheckoutSessionRequest) => {
         try {
             set({ loading: true });
-            const response = await axios.post(`${API_END_POINT}/checkout/create-checkout-session`, checkoutSession, {
+            const response = await axiosInstance.post(`/order/checkout/create-checkout-session`, checkoutSession, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -26,7 +27,7 @@ export const useOrderStore = create<OrderState>()(persist((set => ({
     getOrderDetails: async () => {
         try {
             set({loading:true});
-            const response = await axios.get(`${API_END_POINT}/`);
+            const response = await axiosInstance.get(`order/`);
           
             set({loading:false, orders:response.data.orders});
         } catch (error) {

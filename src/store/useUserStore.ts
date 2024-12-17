@@ -1,11 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import axios from "axios";
+
 import { LoginInputState, SignupInputState } from "@/schema/userSchema";
 import { toast } from "sonner";
+import axiosInstance from "@/Axios/Axios";
 
-const API_END_POINT = "https://food-service-server-alpi.vercel.app/api/v1/user";
-axios.defaults.withCredentials = true;
 
 type User = {
   fullname: string;
@@ -43,7 +43,7 @@ export const useUserStore = create<UserState>()(
     signup: async (input: SignupInputState) => {
       try {
         set({ loading: true });
-        const response = await axios.post(`${API_END_POINT}/signup`, input, {
+        const response = await axiosInstance.post(`/user/signup`, input, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -64,7 +64,7 @@ export const useUserStore = create<UserState>()(
     login: async (input: LoginInputState) => {
       try {
         set({ loading: true });
-        const response = await axios.post(`${API_END_POINT}/login`, input, {
+        const response = await axiosInstance.post(`/user/login`, input, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -83,8 +83,9 @@ export const useUserStore = create<UserState>()(
 
     checkAuthentication: async () => {
       try {
-        const response = await axios.get(`${API_END_POINT}/auth`);
+        const response = await axiosInstance.get(`/user/auth`);
         set({ user: response.data.user, isAuthenticated: true, isCheckingAuth: false });
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
         set({ isAuthenticated: false, isCheckingAuth: false });
       }
@@ -92,7 +93,7 @@ export const useUserStore = create<UserState>()(
 
     logout: async () => {
       try {
-        await axios.post(`${API_END_POINT}/logout`);
+        await axiosInstance.post(`/user/logout`);
         localStorage.removeItem("authToken"); // Clear token
         set({ user: null, isAuthenticated: false });
       } catch (error) {
@@ -102,7 +103,7 @@ export const useUserStore = create<UserState>()(
 
     forgotPassword: async (email: string) => {
       try {
-        await axios.post(`${API_END_POINT}/forgot-password`, { email });
+        await axiosInstance.post(`/user/forgot-password`, { email });
         toast.success("Password reset link sent.");
       } catch (error: any) {
         toast.error(error.response?.data?.message || "Failed to send password reset link.");
@@ -111,7 +112,7 @@ export const useUserStore = create<UserState>()(
 
     resetPassword: async (token: string, newPassword: string) => {
       try {
-        await axios.post(`${API_END_POINT}/reset-password`, { token, newPassword });
+        await axiosInstance.post(`/reset-password`, { token, newPassword });
         toast.success("Password reset successfully.");
       } catch (error: any) {
         toast.error(error.response?.data?.message || "Failed to reset password.");
@@ -120,20 +121,8 @@ export const useUserStore = create<UserState>()(
 
     updateProfile: async (formData: FormData) => {
         try {
-            const token = localStorage.getItem("authToken");
-            if (!token) {
-                toast.error("You are not logged in. Please log in and try again.");
-                throw new Error("No authentication token found.");
-            }
-    
-            const config = {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                    Authorization: `Bearer ${token}`, // Send token in header
-                },
-            };
-    
-            const response = await axios.put(`${API_END_POINT}/profile/update`, formData, config);
+            
+            const response = await axiosInstance.put(`/user/profile/update`, formData);
     
             set({ user: response.data.user });
             toast.success("Profile updated successfully!");
