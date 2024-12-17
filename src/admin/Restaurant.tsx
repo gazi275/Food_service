@@ -6,7 +6,7 @@ import {
   restaurantFromSchema,
 } from "@/schema/restaurantSchema";
 import { useRestaurantStore } from "@/store/useRestaurantStore";
-import { Loader2 } from "lucide-react";
+
 import { FormEvent, useEffect, useState } from "react";
 
 const Restaurant = () => {
@@ -21,7 +21,7 @@ const Restaurant = () => {
   const [errors, setErrors] = useState<Partial<RestaurantFormSchema>>({});
 
   const {
-    loading,
+    
     restaurant,
     updateRestaurant,
     createRestaurant,
@@ -183,7 +183,7 @@ const Restaurant = () => {
             />
             {errors.imageFile && (
               <span className="text-xs text-red-600 font-medium">
-                {errors.imageFile}
+               Image needed
               </span>
             )}
           </div>

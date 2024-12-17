@@ -22,7 +22,7 @@ const AvailableMenu = ({ menus }: { menus: MenuItem[] }) => {
               </h2>
               <p className="text-sm text-gray-600 mt-2">{menu.description}</p>
               <h3 className="text-lg font-semibold mt-4">
-                Price: <span className="text-[#D19254]">₹{menu.price}</span>
+                Price: <span className="text-[#D19254]">${menu.price}</span>
               </h3>
             </CardContent>
             <CardFooter className="p-4">

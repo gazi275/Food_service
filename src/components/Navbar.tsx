@@ -43,7 +43,7 @@ import { useThemeStore } from "@/store/useThemeStore";
 
 
 const Navbar = () => {
-  const { user, logout,login } = useUserStore();
+  const { user, logout } = useUserStore();
   const { cart } = useCartStore();
   const {setTheme} = useThemeStore();
 
@@ -142,7 +142,7 @@ const Navbar = () => {
 export default Navbar;
 
 const MobileNavbar = () => {
-  const { user, logout ,login} = useUserStore();
+  const { user, logout } = useUserStore();
   const {setTheme} = useThemeStore();
   return (
     <Sheet>
