@@ -70,84 +70,78 @@ const Profile = () => {
 
   return (
     <form onSubmit={updateProfileHandler} className="max-w-7xl mx-auto my-5">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Avatar className="relative md:w-28 md:h-28 w-20 h-20">
+      <div className="flex flex-col md:flex-row items-center gap-4">
+        {/* Profile Picture Section */}
+        <div className="relative w-28 h-28 md:w-40 md:h-40">
+          <Avatar className="w-full h-full rounded-full overflow-hidden border-2 border-gray-300 shadow-md">
             <AvatarImage src={selectedProfilePicture || "/path-to-default-avatar.png"} />
             <AvatarFallback>CN</AvatarFallback>
-            <input
-              ref={imageRef}
-              className="hidden"
-              type="file"
-              accept="image/*"
-              onChange={fileChangeHandler}
-            />
-            <div
-              onClick={() => imageRef.current?.click()}
-              className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded-full cursor-pointer"
-            >
-              <Plus className="text-white w-8 h-8" />
-            </div>
           </Avatar>
+          <input
+            ref={imageRef}
+            className="hidden"
+            type="file"
+            accept="image/*"
+            onChange={fileChangeHandler}
+          />
+          <div
+            onClick={() => imageRef.current?.click()}
+            className="absolute bottom-2 right-2 w-10 h-10 bg-orange flex items-center justify-center rounded-full cursor-pointer shadow-md hover:bg-hoverOrange transition duration-300"
+          >
+            <Plus className="text-white w-6 h-6" />
+          </div>
+        </div>
+
+        {/* Full Name Section */}
+        <div className="w-full md:w-auto">
+          <Label htmlFor="fullname" className="text-gray-600 font-medium">
+            Full Name
+          </Label>
           <Input
+            id="fullname"
             type="text"
             name="fullname"
             value={profileData.fullname}
             onChange={changeHandler}
-            className="font-bold text-2xl outline-none border-none focus-visible:ring-transparent"
+            className="font-bold text-xl md:text-2xl border-gray-300 shadow-sm rounded-md focus:ring-orange focus:border-orange"
           />
         </div>
       </div>
-      <div className="grid md:grid-cols-4 md:gap-2 gap-3 my-10">
-        <div className="flex items-center gap-4 rounded-sm p-2 bg-gray-200">
-          <Mail className="text-gray-500" />
-          <div className="w-full">
-            <Label>Email</Label>
-            <input
-              disabled
-              name="email"
-              value={profileData.email}
-              className="w-full text-gray-600 bg-transparent cursor-not-allowed focus-visible:ring-0 focus-visible:border-transparent outline-none border-none"
-            />
-          </div>
-        </div>
-        <div className="flex items-center gap-4 rounded-sm p-2 bg-gray-200">
-          <LocateIcon className="text-gray-500" />
-          <div className="w-full">
-            <Label>Address</Label>
-            <input
-              name="address"
-              value={profileData.address}
-              onChange={changeHandler}
-              className="w-full text-gray-600 bg-transparent focus-visible:ring-0 focus-visible:border-transparent outline-none border-none"
-            />
-          </div>
-        </div>
-        <div className="flex items-center gap-4 rounded-sm p-2 bg-gray-200">
-          <MapPin className="text-gray-500" />
-          <div className="w-full">
-            <Label>City</Label>
-            <input
-              name="city"
-              value={profileData.city}
-              onChange={changeHandler}
-              className="w-full text-gray-600 bg-transparent focus-visible:ring-0 focus-visible:border-transparent outline-none border-none"
-            />
-          </div>
-        </div>
-        <div className="flex items-center gap-4 rounded-sm p-2 bg-gray-200">
-          <MapPinnedIcon className="text-gray-500" />
-          <div className="w-full">
-            <Label>Country</Label>
-            <input
-              name="country"
-              value={profileData.country}
-              onChange={changeHandler}
-              className="w-full text-gray-600 bg-transparent focus-visible:ring-0 focus-visible:border-transparent outline-none border-none"
-            />
-          </div>
-        </div>
+
+      {/* Input Fields Section */}
+      <div className="grid md:grid-cols-4 gap-6 my-10">
+  {[
+    { label: "Email", icon: Mail, name: "email", disabled: true },
+    { label: "Address", icon: LocateIcon, name: "address" },
+    { label: "City", icon: MapPin, name: "city" },
+    { label: "Country", icon: MapPinnedIcon, name: "country" },
+  ].map((field, index) => (
+    <div
+      key={index}
+      className={`relative flex flex-col gap-2 rounded-lg shadow-md p-4 ${
+        field.disabled ? "bg-gray-100" : "bg-white"
+      } hover:shadow-lg transition-shadow duration-300`}
+    >
+      <Label className="text-gray-500 text-sm font-semibold">{field.label}</Label>
+      <div className="flex items-center gap-3">
+        <field.icon className="text-gray-400 w-5 h-5" />
+        <input
+          name={field.name}
+          value={profileData[field.name as keyof typeof profileData]}
+          onChange={changeHandler}
+          disabled={field.disabled}
+          placeholder={`Enter ${field.label.toLowerCase()}`}
+          className={`w-full bg-transparent text-gray-700 border-0 focus:ring-orange focus:ring-1 focus:outline-none ${
+            field.disabled ? "cursor-not-allowed text-gray-400" : ""
+          }`}
+        />
       </div>
+    </div>
+  ))}
+</div>
+
+
+      {/* Submit Button */}
       <div className="text-center">
         {isLoading ? (
           <Button disabled className="bg-orange hover:bg-hoverOrange">
@@ -155,8 +149,8 @@ const Profile = () => {
             Please wait
           </Button>
         ) : (
-          <Button type="submit" className="bg-orange hover:bg-hoverOrange">
-            Update
+          <Button type="submit" className="bg-orange hover:bg-hoverOrange shadow-md">
+            Update Profile
           </Button>
         )}
       </div>

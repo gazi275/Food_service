@@ -248,21 +248,21 @@ const MobileNavbar = () => {
 {user?.role =='owner' && (
             <>
               <Link
-                to="/owner/menu"
+                to="/admin/menu"
                 className="flex items-center gap-4 hover:bg-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:text-gray-900 font-medium"
               >
                 <SquareMenu />
                 <span>Menu</span>
               </Link>
               <Link
-                to="/owner/restaurant"
+                to="/admin/restaurant"
                 className="flex items-center gap-4 hover:bg-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:text-gray-900 font-medium"
               >
                 <UtensilsCrossed />
                 <span>Restaurant</span>
               </Link>
               <Link
-                to="/owner/orders"
+                to="/admin/orders"
                 className="flex items-center gap-4 hover:bg-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:text-gray-900 font-medium"
               >
                 <PackageCheck />
