@@ -31,7 +31,7 @@ const EditMenu = ({
   setEditOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
   const [input, setInput] = useState<MenuFormSchema>({
-    resturantID:"",
+   
     name: "",
     description: "",
     price: 0,
