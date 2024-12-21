@@ -71,7 +71,7 @@ const EditMenu = ({
 
   useEffect(() => { 
     setInput({
-      resturantID:"",
+     
       name: selectedMenu?.name || "",
       description: selectedMenu?.description || "",
       price: selectedMenu?.price || 0,
