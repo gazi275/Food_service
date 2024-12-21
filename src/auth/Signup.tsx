@@ -8,7 +8,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 
-// typescript me type define krne ka 2 trika hota hai
+
 
 const Signup = () => {
     const [input, setInput] = useState<SignupInputState>({
@@ -26,14 +26,14 @@ const Signup = () => {
     }
     const loginSubmitHandler = async (e:FormEvent) => {
         e.preventDefault();
-        // form validation check start
+       
         const result = userSignupSchema.safeParse(input);
         if(!result.success){
             const fieldErrors = result.error.formErrors.fieldErrors;
             setErrors(fieldErrors as Partial<SignupInputState>);
             return;
         }
-        // login api implementation start here
+        
         try {
           await signup(input);
           navigate("/login");
@@ -47,7 +47,7 @@ const Signup = () => {
     <div className="flex items-center justify-center min-h-screen">
       <form onSubmit={loginSubmitHandler} className="md:p-8 w-full max-w-md rounded-lg md:border border-gray-200 mx-4">
         <div className="mb-4">
-          <h1 className="font-bold text-2xl">PatelEats</h1>
+          <h1 className="font-bold text-2xl">FOODY</h1>
         </div>
         <div className="mb-4">
           <div className="relative">

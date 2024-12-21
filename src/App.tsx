@@ -12,15 +12,16 @@ import Profile from "./components/Profile";
 import SearchPage from "./components/SearchPage";
 import RestaurantDetail from "./components/RestaurantDetail";
 import Cart from "./components/Cart";
-import Restaurant from "./admin/Restaurant";
-import AddMenu from "./admin/AddMenu";
-import Orders from "./admin/Orders";
+import Restaurant from "./RestaurantOwner/Restaurant";
+import AddMenu from "./RestaurantOwner/AddMenu";
+import Orders from "./RestaurantOwner/Orders";
 import Success from "./components/Success";
 import { useUserStore } from "./store/useUserStore";
 import { Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import Loading from "./components/Loading";
 import { useThemeStore } from "./store/useThemeStore";
+import ManageUser from "./Admin/ManageUser";
 
 export const ProtectedRoutes = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated, user } = useUserStore();
@@ -37,6 +38,7 @@ export const ProtectedRoutes = ({ children }: { children: React.ReactNode }) => 
 
 const AuthenticatedUser = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated, user } = useUserStore();
+  console.log(user);
   if(isAuthenticated && user){
     return <Navigate to="/profile" replace/>
   }
@@ -48,7 +50,7 @@ const AdminRoute = ({children}:{children:React.ReactNode}) => {
   if(!isAuthenticated){
     return <Navigate to="/login" replace/>
   }
-  if(!user?.admin){
+  if(user?.role !=="admin" && user?.role !=='owner'){
     return <Navigate to="/" replace/>
   }
 
@@ -90,6 +92,10 @@ const appRouter = createBrowserRouter([
         element:<AdminRoute><Restaurant /></AdminRoute>,
       },
       {
+        path: "/admin/Owner",
+        element:<AdminRoute><ManageUser/></AdminRoute>,
+      },
+      {
         path: "/admin/menu",
         element:<AdminRoute><AddMenu /></AdminRoute>,
       },
@@ -97,6 +103,7 @@ const appRouter = createBrowserRouter([
         path: "/admin/orders",
         element:<AdminRoute><Orders /></AdminRoute>,
       },
+      
     ],
   },
   {
@@ -105,7 +112,7 @@ const appRouter = createBrowserRouter([
   },
   {
     path: "/signup",
-    element:<AuthenticatedUser><Signup /></AuthenticatedUser> ,
+    element:<Signup /> ,
   },
   {
     path: "/forgot-password",

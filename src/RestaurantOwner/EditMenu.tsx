@@ -31,6 +31,7 @@ const EditMenu = ({
   setEditOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
   const [input, setInput] = useState<MenuFormSchema>({
+    resturantID:"",
     name: "",
     description: "",
     price: 0,
@@ -53,7 +54,7 @@ const EditMenu = ({
       return;
     }
      
-    // api ka kaam start from here
+
     try {
       const formData = new FormData();
       formData.append("name", input.name);
@@ -70,6 +71,7 @@ const EditMenu = ({
 
   useEffect(() => { 
     setInput({
+      resturantID:"",
       name: selectedMenu?.name || "",
       description: selectedMenu?.description || "",
       price: selectedMenu?.price || 0,

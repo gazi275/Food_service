@@ -59,7 +59,7 @@ const Navbar = () => {
             <Link to="/profile">Profile</Link>
             <Link to="/order/status">Order</Link>
 
-            {user?.admin && (
+            {user?.role=='admin' && (
               <Menubar>
                 <MenubarMenu>
                   <MenubarTrigger>Dashboard</MenubarTrigger>
@@ -73,10 +73,35 @@ const Navbar = () => {
                     <Link to="/admin/orders">
                       <MenubarItem>Orders</MenubarItem>
                     </Link>
+                    <Link to="/admin/owner">
+                      <MenubarItem>Manage Owner</MenubarItem>
+                    </Link>
                   </MenubarContent>
                 </MenubarMenu>
               </Menubar>
             )}
+
+
+{user?.role=='owner' && (
+              <Menubar>
+              <MenubarMenu>
+                <MenubarTrigger>Dashboard</MenubarTrigger>
+                <MenubarContent>
+                  <Link to="/admin/restaurant">
+                    <MenubarItem>Restaurant</MenubarItem>
+                  </Link>
+                  <Link to="/admin/menu">
+                    <MenubarItem>Menu</MenubarItem>
+                  </Link>
+                  <Link to="/admin/orders">
+                    <MenubarItem>Orders</MenubarItem>
+                  </Link>
+                  
+                </MenubarContent>
+              </MenubarMenu>
+            </Menubar>
+            )}
+
           </div>
           <div className="flex items-center gap-4">
             <div>
@@ -108,7 +133,7 @@ const Navbar = () => {
             <div>
               <Avatar>
                 <AvatarImage src={user?.profilePicture} alt="profilephoto" />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarFallback></AvatarFallback>
               </Avatar>
             </div>
             <div>
@@ -195,7 +220,7 @@ const MobileNavbar = () => {
             <ShoppingCart />
             <span>Cart (0)</span>
           </Link>
-          {user?.admin && (
+          {user?.role =='admin' && (
             <>
               <Link
                 to="/admin/menu"
@@ -220,6 +245,33 @@ const MobileNavbar = () => {
               </Link>
             </>
           )}
+{user?.role =='owner' && (
+            <>
+              <Link
+                to="/owner/menu"
+                className="flex items-center gap-4 hover:bg-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:text-gray-900 font-medium"
+              >
+                <SquareMenu />
+                <span>Menu</span>
+              </Link>
+              <Link
+                to="/owner/restaurant"
+                className="flex items-center gap-4 hover:bg-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:text-gray-900 font-medium"
+              >
+                <UtensilsCrossed />
+                <span>Restaurant</span>
+              </Link>
+              <Link
+                to="/owner/orders"
+                className="flex items-center gap-4 hover:bg-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:text-gray-900 font-medium"
+              >
+                <PackageCheck />
+                <span>Restaurant Orders</span>
+              </Link>
+            </>
+          )}
+
+
         </SheetDescription>
         <SheetFooter className="flex flex-col gap-4">
           <div className="flex flex-row items-center gap-2">

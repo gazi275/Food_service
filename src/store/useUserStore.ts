@@ -15,11 +15,12 @@ type User = {
   city: string;
   country: string;
   profilePicture: string;
-  admin: boolean;
+  role: 'admin'|'owner'|'user',
   isVerified: boolean;
 };
 
 type UserState = {
+  users:string[],
   user: User | null;
   isAuthenticated: boolean;
   isCheckingAuth: boolean;
@@ -27,6 +28,8 @@ type UserState = {
   signup: (input: SignupInputState) => Promise<void>;
   login: (input: LoginInputState) => Promise<void>;
   checkAuthentication: () => Promise<void>;
+  getAlluser:()=>Promise<void>;
+  updateRole:(id:string,role:string)=>Promise<void>
   logout: () => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
   resetPassword: (token: string, newPassword: string) => Promise<void>;
@@ -35,10 +38,12 @@ type UserState = {
 
 export const useUserStore = create<UserState>()(
   persist((set) => ({
+    users:[],
     user: null,
     isAuthenticated: false,
     isCheckingAuth: true,
     loading: false,
+    
 
     signup: async (input: SignupInputState) => {
       try {
@@ -52,7 +57,7 @@ export const useUserStore = create<UserState>()(
 
         if (response.data.success) {
           toast.success(response.data.message);
-          set({ loading: false, user: response.data.user, isAuthenticated: true })
+          set({ loading: false,user:response.data.user })
         
         }
       } catch (error: any) {
@@ -84,12 +89,43 @@ export const useUserStore = create<UserState>()(
     checkAuthentication: async () => {
       try {
         const response = await axiosInstance.get(`/user/auth`);
-        set({ user: response.data.user, isAuthenticated: true, isCheckingAuth: false });
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        if (response.data.success) {
+          set({
+            user: response.data.user,
+            isAuthenticated: true,
+            isCheckingAuth: false,
+          });
+        }
       } catch (error) {
+        console.error("Error during authentication:", error);
         set({ isAuthenticated: false, isCheckingAuth: false });
+        localStorage.removeItem("authToken"); // Clear any invalid token
       }
     },
+    getAlluser:async()=>{
+      try {
+        const response=await axiosInstance.get('/user/');
+        console.log(response);
+        if (response.data.success) {
+          set({users:response.data.user})
+        }
+      } catch (error:any) {
+        toast.error(error.response?.data?.message || "Failed to fetch users."); 
+      }
+
+    },
+    updateRole:async(id:string,role:string)=>{
+      try {
+        const response=await axiosInstance.post(`/user/role/${id}`,{role})
+        if (response.data.success) {
+          alert('user role is updated suuccessfully')
+        }
+      } catch (error:any) {
+        toast.error(error.response?.data?.message || "Failed to update user role."); 
+      }
+
+    },
+    
 
     logout: async () => {
       try {
