@@ -112,7 +112,7 @@ const AddMenu = () => {
                 )}
               </div>
               <div>
-                <Label>Price in (Rupees)</Label>
+                <Label>Price </Label>
                 <Input
                   type="number"
                   name="price"
