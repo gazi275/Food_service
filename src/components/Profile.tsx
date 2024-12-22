@@ -111,10 +111,10 @@ const Profile = () => {
       {/* Input Fields Section */}
       <div className="grid md:grid-cols-4 gap-6 my-10">
   {[
-    { label: "Email", icon: Mail, name: "email", disabled: true },
-    { label: "Address", icon: LocateIcon, name: "address" },
-    { label: "City", icon: MapPin, name: "city" },
-    { label: "Country", icon: MapPinnedIcon, name: "country" },
+    { label: user?.email, icon: Mail, name: "email", disabled: true },
+    { label: user?.address, icon: LocateIcon, name: "address" },
+    { label: user?.city, icon: MapPin, name: "city" },
+    { label: user?.country, icon: MapPinnedIcon, name: "country" },
   ].map((field, index) => (
     <div
       key={index}
@@ -130,7 +130,7 @@ const Profile = () => {
           value={profileData[field.name as keyof typeof profileData]}
           onChange={changeHandler}
           disabled={field.disabled}
-          placeholder={`Enter ${field.label.toLowerCase()}`}
+          placeholder={`Enter ${field.label}`}
           className={`w-full bg-transparent text-gray-700 border-0 focus:ring-orange focus:ring-1 focus:outline-none ${
             field.disabled ? "cursor-not-allowed text-gray-400" : ""
           }`}
